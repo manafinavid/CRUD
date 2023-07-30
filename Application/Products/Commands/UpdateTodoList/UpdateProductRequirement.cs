@@ -28,7 +28,7 @@ public class UpdateProductCommandRequirement : AuthorizationHandler<UpdateProduc
             else if (context.User.HasClaim(c => c.Type == PermissionNames.UpdateProduct.ToString()))
             {
                 var amICreator = await Dbcontext.ProductEvents.Where(x => x is ProductUpdateEvent &&
-                                                x.ProductId == requirement.Id &&
+                                                x.ProductId == Guid.Parse(requirement.Id) &&
                                                 x.CreatorId == CurrentUserService.UserId
                                                 )
                                         .AnyAsync();

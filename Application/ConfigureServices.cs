@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
+using AutoMapper.Internal;
 using CRUD.Application.Common.Behaviours;
+using CRUD.Application.Common.Mappings;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +12,12 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
+        services.AddAutoMapper(opt =>
+        {
+            opt.Internal().MethodMappingEnabled = false;
+            opt.AddProfile<MappingProfile>();
+        });
+
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddMediatR(cfg =>

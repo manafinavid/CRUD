@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.ComponentModel.DataAnnotations;
+using FluentValidation;
 using MediatR;
 using ValidationException = CRUD.Application.Common.Exceptions.ValidationException;
 
@@ -16,13 +17,16 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
+
         if (_validators.Any())
         {
             var context = new ValidationContext<TRequest>(request);
 
-            var validationResults = await Task.WhenAll(
-                _validators.Select(v =>
-                    v.ValidateAsync(context, cancellationToken)));
+            List<FluentValidation.Results.ValidationResult> validationResults = new();
+            foreach (var validator in _validators)
+            {
+                validationResults.Add(await validator.ValidateAsync(context, cancellationToken));
+            }
 
             var failures = validationResults
                 .Where(r => r.Errors.Any())

@@ -2,6 +2,7 @@
 
 using CRUD.Application.Common.Interfaces;
 using CRUD.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace CRUD.WebApi.Services;
@@ -17,7 +18,7 @@ public class CurrentUserService : ICurrentUserService
         DbContext = dbContext;
     }
 
-    public string? UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+    public string? UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue("sub");
     public Task<ApplicationUser> GetCurrentUserAsync()
         => DbContext.ApplicationUsers.SingleAsync(x => x.Id == UserId);
 }

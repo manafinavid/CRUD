@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Authorization;
 namespace CRUD.Application.Products.Commands.CreateProduct;
 
 [Authorize(nameof(PermissionNames.CreateProduct))]
-public record CreateProductCommand : IRequest<Guid>, IAuthorizationRequirement
+public class CreateProductCommand : IRequest<Guid>, IAuthorizationRequirement
 {
-    public string? Name { get; init; }
-    public DateTime ProductDate { get; init; }
-    public string? ManufacturePhone { get; init; }
-    public string? ManufactureEmail { get; init; }
+    public string? Name { get; set; }
+    public DateTime ProductDate { get; set; }
+    public string? ManufacturePhone { get; set; }
+    public string? ManufactureEmail { get; set; }
 }
 
 public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Guid>

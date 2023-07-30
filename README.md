@@ -1,0 +1,5 @@
+Clean Architecture
+AutoMapper
+FluentValidation
+EntityFrameworkCore
+MediatR

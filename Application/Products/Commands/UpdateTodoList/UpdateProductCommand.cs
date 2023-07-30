@@ -10,9 +10,13 @@ using Microsoft.EntityFrameworkCore;
 namespace CRUD.Application.Products.Commands.UpdateProduct;
 
 [Authorize(nameof(PermissionNames.UpdateProduct))]
-public record UpdateProductCommand : CreateProductCommand , IAuthorizationRequirement
+public class UpdateProductCommand : IRequest<Guid>, IAuthorizationRequirement
 {
-    public Guid Id { get; init; }
+    public string Id { get; set; } = string.Empty;
+    public string? Name { get; set; }
+    public DateTime ProductDate { get; set; }
+    public string? ManufacturePhone { get; set; }
+    public string? ManufactureEmail { get; set; }
 }
 
 public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Guid>
@@ -30,7 +34,7 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
 
     public async Task<Guid> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.Products.SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+        var entity = await _context.Products.SingleOrDefaultAsync(x => x.Id == Guid.Parse(request.Id), cancellationToken);
 
         if (entity == null)
         {

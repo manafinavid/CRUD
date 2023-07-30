@@ -24,11 +24,11 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
         _mediator = mediator;
     }
 
-    public DbSet<Product> Products { get; } = null!;
-    public DbSet<ProductEvent> ProductEvents { get; } = null!;
+    public DbSet<Product> Products { get; set; }  = null!;
+    public DbSet<ProductEvent> ProductEvents { get; set; } = null!;
 
-    public DbSet<ApplicationUser> ApplicationUsers { get; } = null!;
-    public DbSet<ApplicationUserEvent> ApplicationUserEvents { get; } = null!;
+    public DbSet<ApplicationUser> ApplicationUsers { get; set; } = null!;
+    public DbSet<ApplicationUserEvent> ApplicationUserEvents { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -11,6 +11,7 @@ using CRUD.Application.Products.Commands.CreateProduct;
 using CRUD.Application.Products.Commands.DeleteProduct;
 using CRUD.Application.Products.Commands.UpdateProduct;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.Extensions.DependencyInjection;
 

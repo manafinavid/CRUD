@@ -7,8 +7,9 @@ using CRUD.Application.Users.Commands.Login;
 
 namespace CRUD.WebApi.Controllers;
 
-[Route("/")]
-public class UsersController : Controller
+[ApiController]
+[AllowAnonymous]
+public class UsersController : ControllerBase
 {
     readonly IMediator Mediator;
     public UsersController(IMediator mediator)
@@ -16,33 +17,12 @@ public class UsersController : Controller
         Mediator = mediator;
     }
 
-    [HttpGet]
-    public IActionResult Register()
-        => View();
-
-    [HttpGet]
-    [Route("/RegisterTest")]
-    public async Task<IActionResult> RegisterTest()
-        => await Register(new()
-        {
-            Email = "Helena@ir.com",
-            UserName = "Helena",
-            Password = "Helena@000",
-            ConfrimPassword = "Helena@000",
-        });
-
-
-
     [HttpPost]
-    public async Task<IActionResult> Register(SignUpCommand command)
+    [Route("/Register")]
+    public async Task<ActionResult<string>> Register(SignUpCommand command)
     {
-        return Json(await Mediator.Send(command));
+        return await Mediator.Send(command);
     }
-
-
-    [HttpGet]
-    public IActionResult SignIn()
-        => View();
 
 
     [HttpGet]
@@ -55,15 +35,15 @@ public class UsersController : Controller
         });
 
     [HttpPost]
-    public async Task<IActionResult> SignIn(LoginCommand command)
+    [Route("/SignIn")]
+    public async Task<ActionResult> SignIn(LoginCommand command)
     {
         await Mediator.Send(command);
-        //HttpContext.Session.Clear();
-
-        return RedirectToAction("Index", "Products");
+        return NoContent();
     }
 
     [HttpGet]
+    [Route("/SignOut")]
     public override SignOutResult SignOut()
     {
         return base.SignOut();

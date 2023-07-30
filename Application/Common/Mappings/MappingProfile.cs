@@ -1,6 +1,7 @@
 using System.Reflection;
 using AutoMapper;
 using CRUD.Application.Products.Commands.CreateProduct;
+using CRUD.Application.Products.Commands.GetProduct;
 using CRUD.Application.Products.Commands.UpdateProduct;
 using CRUD.Application.Users.Commands.SignUp;
 using CRUD.Domain.Entities;
@@ -19,6 +20,10 @@ public class MappingProfile : Profile
         CreateMap<CreateProductCommand, Product>();
 
         CreateMap<UpdateProductCommand, Product>()
+            .ForMember(x => x.Id, inp => inp.MapFrom(x => Guid.Parse(x.Id)))
             .ReverseMap();
+
+        CreateMap<Product, ProductViewModel>()
+            .ForMember(x => x.Id, inp => inp.MapFrom(x => x.Id.ToString()));
     }
 }
